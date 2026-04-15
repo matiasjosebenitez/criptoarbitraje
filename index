@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arbitraje Cripto</title>
+  <style>
+    :root{
+      --bg:#06131f;
+      --panel:#0c1b2a;
+      --line:#17324a;
+      --text:#eaf4ff;
+      --muted:#9fb7cc;
+      --buy-bg:rgba(0, 200, 120, .18);
+      --buy-bd:rgba(0, 200, 120, .55);
+      --sell-bg:rgba(255, 70, 70, .18);
+      --sell-bd:rgba(255, 70, 70, .55);
+      --wait-bg:rgba(255,255,255,.04);
+      --accent:#5bc0ff;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{
+      margin:0;
+      padding:0;
+      background:linear-gradient(180deg,#06131f 0%, #081a2a 100%);
+      color:var(--text);
+      font-family:Arial, Helvetica, sans-serif;
+      overflow-x:hidden;
+      width:100%;
+      max-width:100%;
+    }
+
+    body{
+      min-height:100vh;
+    }
+
+    .wrap{
+      width:min(1180px, calc(100% - 24px));
+      margin:0 auto;
+      padding:18px 0 28px;
+    }
+
+    .top{
+      display:flex;
+      flex-wrap:wrap;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:12px;
+      padding-bottom:14px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(1.3rem, 2.8vw, 2.3rem);
+      line-height:1.1;
+      letter-spacing:.3px;
+    }
+
+    .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:clamp(.92rem, 1.6vw, 1.02rem);
+    }
+
+    .status{
+      text-align:right;
+      font-size:clamp(.85rem, 1.5vw, 1rem);
+      color:var(--muted);
+    }
+
+    .status strong{
+      color:var(--accent);
+      font-weight:700;
+    }
+
+    .hero{
+      margin:18px 0 10px;
+      padding:14px 0 10px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0,1fr));
+      gap:12px;
+    }
+
+    .hero-item{
+      min-width:0;
+      padding:12px 10px;
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.025);
+    }
+
+    .coin{
+      font-size:clamp(1rem, 2vw, 1.22rem);
+      font-weight:700;
+      margin-bottom:8px;
+    }
+
+    .route{
+      font-size:clamp(.92rem, 1.55vw, 1.02rem);
+      line-height:1.45;
+      color:var(--text);
+    }
+
+    .spread{
+      margin-top:7px;
+      font-size:clamp(.9rem, 1.45vw, 1rem);
+      color:var(--muted);
+    }
+
+    .buy-word{ color:#50e39a; font-weight:700; }
+    .sell-word{ color:#ff8c8c; font-weight:700; }
+
+    .list{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:16px;
+      margin-top:10px;
+    }
+
+    .section{
+      min-width:0;
+      padding:12px 0 0;
+      border-top:1px solid rgba(255,255,255,.08);
+    }
+
+    .section h2{
+      margin:0 0 10px;
+      font-size:clamp(1rem, 2vw, 1.25rem);
+      font-weight:700;
+    }
+
+    .table-wrap{
+      width:100%;
+      overflow-x:auto;
+      overflow-y:hidden;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:thin;
+      max-width:100%;
+      border-top:1px solid rgba(255,255,255,.06);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    table{
+      width:100%;
+      min-width:520px;
+      border-collapse:collapse;
+    }
+
+    th, td{
+      padding:10px 8px;
+      text-align:left;
+      font-size:clamp(.88rem, 1.4vw, .98rem);
+      border-bottom:1px solid rgba(255,255,255,.06);
+      white-space:nowrap;
+    }
+
+    th{
+      color:#b5cde1;
+      font-weight:700;
+    }
+
+    tr:last-child td{
+      border-bottom:none;
+    }
+
+    .exchange{
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+
+    .buy{
+      background:var(--buy-bg);
+      outline:1px solid var(--buy-bd);
+      outline-offset:-1px;
+    }
+
+    .sell{
+      background:var(--sell-bg);
+      outline:1px solid var(--sell-bd);
+      outline-offset:-1px;
+    }
+
+    .wait{
+      background:var(--wait-bg);
+    }
+
+    .pill{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:.82rem;
+      font-weight:700;
+    }
+
+    .pill.buy{
+      color:#9df2c7;
+    }
+
+    .pill.sell{
+      color:#ffb1b1;
+    }
+
+    .pill.wait{
+      color:#c7d6e5;
+    }
+
+    .foot{
+      margin-top:18px;
+      padding-top:12px;
+      border-top:1px solid rgba(255,255,255,.08);
+      color:var(--muted);
+      font-size:clamp(.84rem, 1.35vw, .96rem);
+      line-height:1.5;
+    }
+
+    @media (max-width: 980px){
+      .hero-grid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+      .list{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      .wrap{
+        width:min(100%, calc(100% - 14px));
+        padding-top:12px;
+      }
+      .top{
+        gap:8px;
+      }
+      .status{
+        text-align:left;
+      }
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
+      .hero-item{
+        padding:10px 8px;
+      }
+      th, td{
+        padding:9px 7px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div>
+        <h1>Arbitraje de Criptomonedas</h1>
+        <div class="sub">Comparación en tiempo real entre Binance, Bybit y OKX para detectar dónde comprar más barato y dónde vender más caro.</div>
+      </div>
+      <div class="status">
+        Actualización: <strong id="lastUpdate">cargando...</strong><br>
+        Refresco automático: <strong>1 segundo</strong>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="hero-grid" id="heroGrid"></div>
+    </div>
+
+    <div class="list" id="sections"></div>
+
+    <div class="foot">
+      La señal se resalta mientras exista diferencia entre el exchange más barato y el más caro.  
+      Si los precios cambian, la recomendación se actualiza sola.
+    </div>
+  </div>
+
+  <script>
+    const COINS = [
+      { base: 'BTC', quote: 'USDT' },
+      { base: 'ETH', quote: 'USDT' },
+      { base: 'BNB', quote: 'USDT' },
+      { base: 'SOL', quote: 'USDT' },
+      { base: 'XRP', quote: 'USDT' }
+    ];
+
+    const state = {};
+
+    function fmt(n, digits = 6){
+      if(n === null || n === undefined || Number.isNaN(n)) return '-';
+      const abs = Math.abs(n);
+      let d = digits;
+      if (abs >= 1000) d = 2;
+      else if (abs >= 100) d = 3;
+      else if (abs >= 1) d = 4;
+      return Number(n).toLocaleString('es-AR', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: d
+      });
+    }
+
+    function nowText(){
+      return new Date().toLocaleTimeString('es-AR');
+    }
+
+    async function fetchBinanceAll(){
+      const res = await fetch('https://api.binance.com/api/v3/ticker/price');
+      const data = await res.json();
+      const map = {};
+      for(const row of data){
+        map[row.symbol] = Number(row.price);
+      }
+      return map;
+    }
+
+    async function fetchBybitAll(){
+      const res = await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
+      const data = await res.json();
+      const map = {};
+      for(const row of (data.result?.list || [])){
+        map[row.symbol] = Number(row.lastPrice);
+      }
+      return map;
+    }
+
+    async function fetchOkxAll(){
+      const res = await fetch('https://www.okx.com/api/v5/market/tickers?instType=SPOT');
+      const data = await res.json();
+      const map = {};
+      for(const row of (data.data || [])){
+        const symbol = row.instId.replace('-', '');
+        map[symbol] = Number(row.last);
+      }
+      return map;
+    }
+
+    function getRowsForCoin(symbol, prices){
+      const rows = [
+        { exchange: 'Binance', price: prices.binance[symbol] ?? null },
+        { exchange: 'Bybit', price: prices.bybit[symbol] ?? null },
+        { exchange: 'OKX', price: prices.okx[symbol] ?? null }
+      ].filter(r => r.price !== null && !Number.isNaN(r.price));
+
+      if(!rows.length){
+        return { rows: [], min: null, max: null, spread: null, spreadPct: null };
+      }
+
+      const min = rows.reduce((a,b) => a.price < b.price ? a : b);
+      const max = rows.reduce((a,b) => a.price > b.price ? a : b);
+      const spread = max.price - min.price;
+      const spreadPct = min.price ? (spread / min.price) * 100 : 0;
+
+      return { rows, min, max, spread, spreadPct };
+    }
+
+    function render(prices){
+      const hero = document.getElementById('heroGrid');
+      const sections = document.getElementById('sections');
+      hero.innerHTML = '';
+      sections.innerHTML = '';
+
+      for(const coin of COINS){
+        const symbol = coin.base + coin.quote;
+        const data = getRowsForCoin(symbol, prices);
+
+        const heroItem = document.createElement('div');
+        heroItem.className = 'hero-item';
+
+        if(!data.rows.length){
+          heroItem.innerHTML = `
+            <div class="coin">${coin.base}</div>
+            <div class="route">Sin datos disponibles</div>
+            <div class="spread">Esperando precios...</div>
+          `;
+        } else {
+          heroItem.innerHTML = `
+            <div class="coin">${coin.base}</div>
+            <div class="route">
+              <span class="buy-word">Comprar</span> en ${data.min.exchange}<br>
+              <span class="sell-word">Vender</span> en ${data.max.exchange}
+            </div>
+            <div class="spread">
+              Diferencia: ${fmt(data.spread)} USDT · ${fmt(data.spreadPct, 4)}%
+            </div>
+          `;
+        }
+        hero.appendChild(heroItem);
+
+        const sec = document.createElement('section');
+        sec.className = 'section';
+        sec.innerHTML = `<h2>${coin.base}</h2>`;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'table-wrap';
+
+        const table = document.createElement('table');
+        table.innerHTML = `
+          <thead>
+            <tr>
+              <th>Exchange</th>
+              <th>Precio</th>
+              <th>Diferencia USD</th>
+              <th>Diferencia %</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        `;
+        const tbody = table.querySelector('tbody');
+
+        if(!data.rows.length){
+          const tr = document.createElement('tr');
+          tr.innerHTML = `<td colspan="5">No hay datos para esta moneda.</td>`;
+          tbody.appendChild(tr);
+        } else {
+          data.rows.forEach(row => {
+            const tr = document.createElement('tr');
+            let cls = 'wait';
+            let action = '<span class="pill wait">Esperar</span>';
+            let diffUsd = row.price - data.min.price;
+            let diffPct = data.min.price ? ((row.price - data.min.price) / data.min.price) * 100 : 0;
+
+            if(row.exchange === data.min.exchange){
+              cls = 'buy';
+              action = '<span class="pill buy">COMPRAR</span>';
+            }
+            if(row.exchange === data.max.exchange){
+              cls = row.exchange === data.min.exchange ? 'buy sell' : 'sell';
+              action = row.exchange === data.min.exchange
+                ? '<span class="pill buy">COMPRAR / VENDER</span>'
+                : '<span class="pill sell">VENDER</span>';
+            }
+
+            tr.className = cls;
+            tr.innerHTML = `
+              <td class="exchange">${row.exchange}</td>
+              <td>${fmt(row.price)}</td>
+              <td>${fmt(diffUsd)}</td>
+              <td>${fmt(diffPct, 4)}%</td>
+              <td>${action}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+
+        wrap.appendChild(table);
+        sec.appendChild(wrap);
+        sections.appendChild(sec);
+      }
+
+      document.getElementById('lastUpdate').textContent = nowText();
+    }
+
+    async function tick(){
+      try{
+        const [binance, bybit, okx] = await Promise.all([
+          fetchBinanceAll(),
+          fetchBybitAll(),
+          fetchOkxAll()
+        ]);
+        render({ binance, bybit, okx });
+      }catch(err){
+        document.getElementById('lastUpdate').textContent = 'error de conexión';
+        console.error(err);
+      }
+    }
+
+    tick();
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
