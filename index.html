@@ -6,86 +6,95 @@
   <title>Arbitraje Cripto</title>
   <style>
     :root{
-      --bg:#06131f;
-      --panel:#0c1b2a;
-      --line:#17324a;
       --text:#eaf4ff;
       --muted:#9fb7cc;
-      --buy-bg:rgba(0, 200, 120, .18);
-      --buy-bd:rgba(0, 200, 120, .55);
-      --sell-bg:rgba(255, 70, 70, .18);
-      --sell-bd:rgba(255, 70, 70, .55);
+      --buy-bg:rgba(0,200,120,.18);
+      --buy-bd:rgba(0,200,120,.55);
+      --sell-bg:rgba(255,70,70,.18);
+      --sell-bd:rgba(255,70,70,.55);
       --wait-bg:rgba(255,255,255,.04);
       --accent:#5bc0ff;
+      --warn:#ffd166;
     }
-
-    *{ box-sizing:border-box; }
+    *{box-sizing:border-box}
     html,body{
       margin:0;
       padding:0;
-      background:linear-gradient(180deg,#06131f 0%, #081a2a 100%);
-      color:var(--text);
-      font-family:Arial, Helvetica, sans-serif;
-      overflow-x:hidden;
       width:100%;
       max-width:100%;
+      overflow-x:hidden;
+      font-family:Arial,Helvetica,sans-serif;
+      background:linear-gradient(180deg,#06131f 0%,#081a2a 100%);
+      color:var(--text);
     }
-
-    body{
-      min-height:100vh;
-    }
-
+    body{min-height:100vh}
     .wrap{
       width:min(1180px, calc(100% - 24px));
       margin:0 auto;
       padding:18px 0 28px;
     }
-
     .top{
       display:flex;
       flex-wrap:wrap;
       align-items:flex-end;
       justify-content:space-between;
-      gap:12px;
+      gap:14px;
       padding-bottom:14px;
       border-bottom:1px solid rgba(255,255,255,.08);
     }
-
     h1{
       margin:0;
-      font-size:clamp(1.3rem, 2.8vw, 2.3rem);
+      font-size:clamp(1.3rem,2.8vw,2.3rem);
       line-height:1.1;
-      letter-spacing:.3px;
     }
-
     .sub{
       margin-top:6px;
       color:var(--muted);
-      font-size:clamp(.92rem, 1.6vw, 1.02rem);
+      font-size:clamp(.92rem,1.6vw,1.02rem);
     }
-
     .status{
       text-align:right;
-      font-size:clamp(.85rem, 1.5vw, 1rem);
+      font-size:clamp(.85rem,1.5vw,1rem);
       color:var(--muted);
     }
-
-    .status strong{
-      color:var(--accent);
+    .status strong{color:var(--accent)}
+    .controls{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+      margin:16px 0 4px;
+      padding:12px 0;
+      border-top:1px solid rgba(255,255,255,.08);
+      border-bottom:1px solid rgba(255,255,255,.08);
+    }
+    .controls label{
+      font-size:clamp(.92rem,1.5vw,1rem);
       font-weight:700;
     }
-
+    .controls select{
+      background:#0d2134;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:10px;
+      padding:10px 12px;
+      font-size:clamp(.92rem,1.5vw,1rem);
+      min-width:180px;
+      max-width:100%;
+    }
+    .controls .hint{
+      color:var(--warn);
+      font-size:clamp(.88rem,1.3vw,.95rem);
+    }
     .hero{
       margin:18px 0 10px;
       padding:14px 0 10px;
     }
-
     .hero-grid{
       display:grid;
-      grid-template-columns:repeat(5, minmax(0,1fr));
+      grid-template-columns:repeat(5,minmax(0,1fr));
       gap:12px;
     }
-
     .hero-item{
       min-width:0;
       padding:12px 10px;
@@ -93,102 +102,77 @@
       border-bottom:1px solid rgba(255,255,255,.08);
       background:rgba(255,255,255,.025);
     }
-
     .coin{
-      font-size:clamp(1rem, 2vw, 1.22rem);
+      font-size:clamp(1rem,2vw,1.22rem);
       font-weight:700;
       margin-bottom:8px;
     }
-
     .route{
-      font-size:clamp(.92rem, 1.55vw, 1.02rem);
+      font-size:clamp(.92rem,1.55vw,1.02rem);
       line-height:1.45;
-      color:var(--text);
     }
-
     .spread{
       margin-top:7px;
-      font-size:clamp(.9rem, 1.45vw, 1rem);
+      font-size:clamp(.9rem,1.45vw,1rem);
       color:var(--muted);
     }
-
-    .buy-word{ color:#50e39a; font-weight:700; }
-    .sell-word{ color:#ff8c8c; font-weight:700; }
-
+    .buy-word{color:#50e39a;font-weight:700}
+    .sell-word{color:#ff8c8c;font-weight:700}
     .list{
       display:grid;
-      grid-template-columns:repeat(2, minmax(0,1fr));
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:16px;
       margin-top:10px;
     }
-
     .section{
       min-width:0;
       padding:12px 0 0;
       border-top:1px solid rgba(255,255,255,.08);
     }
-
     .section h2{
       margin:0 0 10px;
-      font-size:clamp(1rem, 2vw, 1.25rem);
-      font-weight:700;
+      font-size:clamp(1rem,2vw,1.25rem);
     }
-
     .table-wrap{
       width:100%;
       overflow-x:auto;
       overflow-y:hidden;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:thin;
       max-width:100%;
       border-top:1px solid rgba(255,255,255,.06);
       border-bottom:1px solid rgba(255,255,255,.06);
     }
-
     table{
       width:100%;
       min-width:520px;
       border-collapse:collapse;
     }
-
-    th, td{
+    th,td{
       padding:10px 8px;
       text-align:left;
-      font-size:clamp(.88rem, 1.4vw, .98rem);
+      font-size:clamp(.88rem,1.4vw,.98rem);
       border-bottom:1px solid rgba(255,255,255,.06);
       white-space:nowrap;
     }
-
     th{
       color:#b5cde1;
       font-weight:700;
     }
-
-    tr:last-child td{
-      border-bottom:none;
-    }
-
+    tr:last-child td{border-bottom:none}
     .exchange{
       font-weight:700;
       letter-spacing:.2px;
     }
-
     .buy{
       background:var(--buy-bg);
       outline:1px solid var(--buy-bd);
       outline-offset:-1px;
     }
-
     .sell{
       background:var(--sell-bg);
       outline:1px solid var(--sell-bd);
       outline-offset:-1px;
     }
-
-    .wait{
-      background:var(--wait-bg);
-    }
-
+    .wait{background:var(--wait-bg)}
     .pill{
       display:inline-block;
       padding:4px 8px;
@@ -196,56 +180,39 @@
       font-size:.82rem;
       font-weight:700;
     }
-
-    .pill.buy{
-      color:#9df2c7;
+    .pill.buy{color:#9df2c7}
+    .pill.sell{color:#ffb1b1}
+    .pill.wait{color:#c7d6e5}
+    .muted{
+      color:var(--muted);
+      font-size:clamp(.86rem,1.3vw,.94rem);
     }
-
-    .pill.sell{
-      color:#ffb1b1;
-    }
-
-    .pill.wait{
-      color:#c7d6e5;
-    }
-
     .foot{
       margin-top:18px;
       padding-top:12px;
       border-top:1px solid rgba(255,255,255,.08);
       color:var(--muted);
-      font-size:clamp(.84rem, 1.35vw, .96rem);
+      font-size:clamp(.84rem,1.35vw,.96rem);
       line-height:1.5;
     }
-
-    @media (max-width: 980px){
-      .hero-grid{
-        grid-template-columns:repeat(2, minmax(0,1fr));
-      }
-      .list{
-        grid-template-columns:1fr;
-      }
+    @media (max-width:980px){
+      .hero-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .list{grid-template-columns:1fr}
     }
-
-    @media (max-width: 640px){
+    @media (max-width:640px){
       .wrap{
         width:min(100%, calc(100% - 14px));
         padding-top:12px;
       }
-      .top{
-        gap:8px;
+      .status{text-align:left}
+      .hero-grid{grid-template-columns:1fr}
+      .controls{
+        flex-direction:column;
+        align-items:flex-start;
       }
-      .status{
-        text-align:left;
-      }
-      .hero-grid{
-        grid-template-columns:1fr;
-      }
-      .hero-item{
-        padding:10px 8px;
-      }
-      th, td{
-        padding:9px 7px;
+      .controls select{
+        width:100%;
+        min-width:unset;
       }
     }
   </style>
@@ -263,6 +230,25 @@
       </div>
     </div>
 
+    <div class="controls">
+      <label for="usdFilter">Filtrar oportunidades por diferencia mínima en USD</label>
+      <select id="usdFilter">
+        <option value="0">0 USD o más</option>
+        <option value="1">1 USD o más</option>
+        <option value="2">2 USD o más</option>
+        <option value="3">3 USD o más</option>
+        <option value="4">4 USD o más</option>
+        <option value="5">5 USD o más</option>
+        <option value="6">6 USD o más</option>
+        <option value="7">7 USD o más</option>
+        <option value="8">8 USD o más</option>
+        <option value="9">9 USD o más</option>
+        <option value="10">10 USD o más</option>
+        <option value="10+">Más de 10 USD</option>
+      </select>
+      <div class="hint" id="filterHint">Mostrando todas las oportunidades.</div>
+    </div>
+
     <div class="hero">
       <div class="hero-grid" id="heroGrid"></div>
     </div>
@@ -270,8 +256,8 @@
     <div class="list" id="sections"></div>
 
     <div class="foot">
-      La señal se resalta mientras exista diferencia entre el exchange más barato y el más caro.  
-      Si los precios cambian, la recomendación se actualiza sola.
+      La señal se resalta mientras exista diferencia entre el exchange más barato y el más caro.
+      El filtro solo muestra como oportunidad las monedas que cumplan con la diferencia en dólares que elijas.
     </div>
   </div>
 
@@ -284,15 +270,13 @@
       { base: 'XRP', quote: 'USDT' }
     ];
 
-    const state = {};
-
     function fmt(n, digits = 6){
       if(n === null || n === undefined || Number.isNaN(n)) return '-';
       const abs = Math.abs(n);
       let d = digits;
-      if (abs >= 1000) d = 2;
-      else if (abs >= 100) d = 3;
-      else if (abs >= 1) d = 4;
+      if(abs >= 1000) d = 2;
+      else if(abs >= 100) d = 3;
+      else if(abs >= 1) d = 4;
       return Number(n).toLocaleString('es-AR', {
         minimumFractionDigits: 2,
         maximumFractionDigits: d
@@ -303,13 +287,29 @@
       return new Date().toLocaleTimeString('es-AR');
     }
 
+    function getThreshold(){
+      const value = document.getElementById('usdFilter').value;
+      if(value === '10+') return 10.0000001;
+      return Number(value);
+    }
+
+    function updateHint(){
+      const value = document.getElementById('usdFilter').value;
+      const hint = document.getElementById('filterHint');
+      if(value === '0'){
+        hint.textContent = 'Mostrando todas las oportunidades.';
+      }else if(value === '10+'){
+        hint.textContent = 'Mostrando solo diferencias mayores a 10 USD.';
+      }else{
+        hint.textContent = 'Mostrando solo diferencias de ' + value + ' USD o más.';
+      }
+    }
+
     async function fetchBinanceAll(){
       const res = await fetch('https://api.binance.com/api/v3/ticker/price');
       const data = await res.json();
       const map = {};
-      for(const row of data){
-        map[row.symbol] = Number(row.price);
-      }
+      for(const row of data){ map[row.symbol] = Number(row.price); }
       return map;
     }
 
@@ -317,9 +317,7 @@
       const res = await fetch('https://api.bybit.com/v5/market/tickers?category=spot');
       const data = await res.json();
       const map = {};
-      for(const row of (data.result?.list || [])){
-        map[row.symbol] = Number(row.lastPrice);
-      }
+      for(const row of (data.result?.list || [])){ map[row.symbol] = Number(row.lastPrice); }
       return map;
     }
 
@@ -342,15 +340,89 @@
       ].filter(r => r.price !== null && !Number.isNaN(r.price));
 
       if(!rows.length){
-        return { rows: [], min: null, max: null, spread: null, spreadPct: null };
+        return { rows: [], min: null, max: null, spread: null, spreadPct: null, qualifies: false };
       }
 
       const min = rows.reduce((a,b) => a.price < b.price ? a : b);
       const max = rows.reduce((a,b) => a.price > b.price ? a : b);
       const spread = max.price - min.price;
       const spreadPct = min.price ? (spread / min.price) * 100 : 0;
+      const qualifies = spread >= getThreshold();
 
-      return { rows, min, max, spread, spreadPct };
+      return { rows, min, max, spread, spreadPct, qualifies };
+    }
+
+    function createHeroItem(coin, data){
+      const div = document.createElement('div');
+      div.className = 'hero-item';
+
+      if(!data.rows.length){
+        div.innerHTML = '<div class="coin">' + coin.base + '</div><div class="route">Sin datos disponibles</div><div class="spread">Esperando precios...</div>';
+      } else if(!data.qualifies){
+        div.innerHTML = '<div class="coin">' + coin.base + '</div><div class="route">Sin oportunidad según el filtro elegido</div><div class="spread">Diferencia actual: ' + fmt(data.spread) + ' USDT · ' + fmt(data.spreadPct, 4) + '%</div>';
+      } else {
+        div.innerHTML = '<div class="coin">' + coin.base + '</div><div class="route"><span class="buy-word">Comprar</span> en ' + data.min.exchange + '<br><span class="sell-word">Vender</span> en ' + data.max.exchange + '</div><div class="spread">Diferencia: ' + fmt(data.spread) + ' USDT · ' + fmt(data.spreadPct, 4) + '%</div>';
+      }
+      return div;
+    }
+
+    function createSection(coin, data){
+      const sec = document.createElement('section');
+      sec.className = 'section';
+      sec.innerHTML = '<h2>' + coin.base + '</h2>';
+
+      const wrap = document.createElement('div');
+      wrap.className = 'table-wrap';
+
+      const table = document.createElement('table');
+      table.innerHTML = '<thead><tr><th>Exchange</th><th>Precio</th><th>Diferencia USD</th><th>Diferencia %</th><th>Acción</th></tr></thead><tbody></tbody>';
+      const tbody = table.querySelector('tbody');
+
+      if(!data.rows.length){
+        const tr = document.createElement('tr');
+        tr.innerHTML = '<td colspan="5">No hay datos para esta moneda.</td>';
+        tbody.appendChild(tr);
+      } else {
+        data.rows.forEach(row => {
+          const tr = document.createElement('tr');
+          let cls = 'wait';
+          let action = '<span class="pill wait">Esperar</span>';
+          const diffUsd = row.price - data.min.price;
+          const diffPct = data.min.price ? ((row.price - data.min.price) / data.min.price) * 100 : 0;
+
+          if(data.qualifies){
+            if(row.exchange === data.min.exchange){
+              cls = 'buy';
+              action = '<span class="pill buy">COMPRAR</span>';
+            }
+            if(row.exchange === data.max.exchange){
+              cls = row.exchange === data.min.exchange ? 'buy sell' : 'sell';
+              action = row.exchange === data.min.exchange
+                ? '<span class="pill buy">COMPRAR / VENDER</span>'
+                : '<span class="pill sell">VENDER</span>';
+            }
+          }
+
+          tr.className = cls;
+          tr.innerHTML =
+            '<td class="exchange">' + row.exchange + '</td>' +
+            '<td>' + fmt(row.price) + '</td>' +
+            '<td>' + fmt(diffUsd) + '</td>' +
+            '<td>' + fmt(diffPct, 4) + '%</td>' +
+            '<td>' + action + '</td>';
+          tbody.appendChild(tr);
+        });
+
+        if(!data.qualifies){
+          const tr = document.createElement('tr');
+          tr.innerHTML = '<td colspan="5" class="muted">La diferencia actual no alcanza el mínimo elegido en el filtro.</td>';
+          tbody.appendChild(tr);
+        }
+      }
+
+      wrap.appendChild(table);
+      sec.appendChild(wrap);
+      return sec;
     }
 
     function render(prices){
@@ -362,94 +434,14 @@
       for(const coin of COINS){
         const symbol = coin.base + coin.quote;
         const data = getRowsForCoin(symbol, prices);
-
-        const heroItem = document.createElement('div');
-        heroItem.className = 'hero-item';
-
-        if(!data.rows.length){
-          heroItem.innerHTML = `
-            <div class="coin">${coin.base}</div>
-            <div class="route">Sin datos disponibles</div>
-            <div class="spread">Esperando precios...</div>
-          `;
-        } else {
-          heroItem.innerHTML = `
-            <div class="coin">${coin.base}</div>
-            <div class="route">
-              <span class="buy-word">Comprar</span> en ${data.min.exchange}<br>
-              <span class="sell-word">Vender</span> en ${data.max.exchange}
-            </div>
-            <div class="spread">
-              Diferencia: ${fmt(data.spread)} USDT · ${fmt(data.spreadPct, 4)}%
-            </div>
-          `;
-        }
-        hero.appendChild(heroItem);
-
-        const sec = document.createElement('section');
-        sec.className = 'section';
-        sec.innerHTML = `<h2>${coin.base}</h2>`;
-
-        const wrap = document.createElement('div');
-        wrap.className = 'table-wrap';
-
-        const table = document.createElement('table');
-        table.innerHTML = `
-          <thead>
-            <tr>
-              <th>Exchange</th>
-              <th>Precio</th>
-              <th>Diferencia USD</th>
-              <th>Diferencia %</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        `;
-        const tbody = table.querySelector('tbody');
-
-        if(!data.rows.length){
-          const tr = document.createElement('tr');
-          tr.innerHTML = `<td colspan="5">No hay datos para esta moneda.</td>`;
-          tbody.appendChild(tr);
-        } else {
-          data.rows.forEach(row => {
-            const tr = document.createElement('tr');
-            let cls = 'wait';
-            let action = '<span class="pill wait">Esperar</span>';
-            let diffUsd = row.price - data.min.price;
-            let diffPct = data.min.price ? ((row.price - data.min.price) / data.min.price) * 100 : 0;
-
-            if(row.exchange === data.min.exchange){
-              cls = 'buy';
-              action = '<span class="pill buy">COMPRAR</span>';
-            }
-            if(row.exchange === data.max.exchange){
-              cls = row.exchange === data.min.exchange ? 'buy sell' : 'sell';
-              action = row.exchange === data.min.exchange
-                ? '<span class="pill buy">COMPRAR / VENDER</span>'
-                : '<span class="pill sell">VENDER</span>';
-            }
-
-            tr.className = cls;
-            tr.innerHTML = `
-              <td class="exchange">${row.exchange}</td>
-              <td>${fmt(row.price)}</td>
-              <td>${fmt(diffUsd)}</td>
-              <td>${fmt(diffPct, 4)}%</td>
-              <td>${action}</td>
-            `;
-            tbody.appendChild(tr);
-          });
-        }
-
-        wrap.appendChild(table);
-        sec.appendChild(wrap);
-        sections.appendChild(sec);
+        hero.appendChild(createHeroItem(coin, data));
+        sections.appendChild(createSection(coin, data));
       }
 
       document.getElementById('lastUpdate').textContent = nowText();
     }
+
+    let lastPrices = null;
 
     async function tick(){
       try{
@@ -458,13 +450,20 @@
           fetchBybitAll(),
           fetchOkxAll()
         ]);
-        render({ binance, bybit, okx });
-      }catch(err){
+        lastPrices = { binance, bybit, okx };
+        render(lastPrices);
+      } catch(err){
         document.getElementById('lastUpdate').textContent = 'error de conexión';
         console.error(err);
       }
     }
 
+    document.getElementById('usdFilter').addEventListener('change', function(){
+      updateHint();
+      if(lastPrices) render(lastPrices);
+    });
+
+    updateHint();
     tick();
     setInterval(tick, 1000);
   </script>
